@@ -102,3 +102,10 @@ Expect: the build line `0 Warning(s)` and `0 Error(s)`, the test summary `succee
 
 - Created: 8c10267a-9869-468f-94f3-f663f4e20b06 (2026-10-31)
 - Implementation: source copy, tests, version 2.0.0-beta.30, pack and promote workflow (2026-11-01). Trusted-publishing probe 41240948605 failed; policy is not something this walk can create.
+- Implement oracle: implemented by implementer-grok (grok, vendor xai, model grok-4.7, response model grok-4.7-build), session 01a193af-4563-7621-8a4a-1a4c30870617, max-turns 500, Blocked — 2026-10-31T20:55:53Z
+
+## Blocked
+
+2026-10-31: Create a nuget.org Trusted Publishing policy while signed in as the TimeWarp.Enterprises policy creator: repository owner TimeWarpEngineering, repository timewarp-contracts, workflow file workflow.yml, environment blank. Then gh workflow run workflow.yml --repo TimeWarpEngineering/timewarp-contracts -f mode=probe must pass NuGet login. Failed probe: https://github.com/TimeWarpEngineering/timewarp-contracts/actions/runs/41240948605
+
+- https://github.com/TimeWarpEngineering/timewarp-contracts/actions/runs/41240948605
