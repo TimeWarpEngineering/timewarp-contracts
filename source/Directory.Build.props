@@ -4,8 +4,16 @@
 
   <!-- Package metadata for NuGet publishing -->
   <PropertyGroup Label="Package Metadata">
-    <Version>1.0.0-beta.1</Version>
+    <!-- Independent prerelease line. Above nuget.org TimeWarp.Contracts 2.0.0-beta.29. -->
+    <Version>2.0.0-beta.30</Version>
     <Authors>TimeWarpEngineering</Authors>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <IsPackable>true</IsPackable>
+    <Deterministic>true</Deterministic>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true' OR '$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
     <PackageProjectUrl>https://timewarp.software/projects/timewarp-contracts/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/TimeWarpEngineering/timewarp-contracts</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

@@ -25,3 +25,8 @@ bin/dev
 bin/dev.dbg
 # AOT dev CLI on Windows (self-install output; local; not product)
 bin/dev.exe
+
+# Build output. bin/dev* above stays ignored with the rest of bin/.
+[Bb]in/
+[Oo]bj/
+artifacts/
