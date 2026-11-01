@@ -13,6 +13,7 @@ global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
 global using System.Xml.Linq;
 global using System.Net.Http;
+global using System.Globalization;
 global using System.Text.Json;
 
 global using TimeWarp.Nuru;

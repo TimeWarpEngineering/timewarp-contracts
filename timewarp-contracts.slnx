@@ -1,2 +1,8 @@
 <Solution>
+  <Folder Name="/source/">
+    <Project Path="source/timewarp-contracts/timewarp-contracts.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/timewarp-contracts-tests/timewarp-contracts-tests.csproj" />
+  </Folder>
 </Solution>

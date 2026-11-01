@@ -1,9 +1,8 @@
 name: CI/CD
 
 # Thin trigger. The pipeline lives in C# — invoke the runfile, not ./bin/dev.
-# bin/dev is gitignored, so a fresh CI checkout does not have it. The factory
-# `workflow` command self-installs first, then runs ./bin/dev clean|build|test.
-# push/PR: verify (and pack if the repo's workflow command packs).
+# bin/dev is gitignored, so a fresh CI checkout does not have it.
+# push/PR: clean, build, test, pack (the Packages-* artifact is that nupkg).
 # release: promote the CI-built Packages-* artifact (no rebuild).
 # Publishing uses OIDC Trusted Publishing (no stored API key).
 on:
@@ -17,6 +16,8 @@ on:
       - '.github/workflows/**'
       - 'Directory.Build.props'
       - 'Directory.Packages.props'
+      - 'global.json'
+      - 'timewarp-contracts.slnx'
   pull_request:
     # No paths filter: every pull request reports CI. The pipeline decides what to run.
     branches: [ master, main, 'feature/**' ]
@@ -51,10 +52,16 @@ jobs:
         with:
           fetch-depth: 0  # Full history required for the release gate's tag/ancestor checks
 
-      - name: Setup .NET
+      - name: Setup .NET 10
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
+
+      - name: Setup .NET 11
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '11.0.x'
+          dotnet-quality: preview
 
       - name: Validate break-glass confirmation
         if: github.event_name == 'workflow_dispatch' && inputs.mode == 'release' && inputs.confirm != 'release'

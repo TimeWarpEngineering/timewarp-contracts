@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>TimeWarp.Contracts</RootNamespace>
+    <PackageId>TimeWarp.Contracts</PackageId>
+    <Title>TimeWarp.Contracts</Title>
+    <Description>Transport-neutral operation contracts for HTTP, CLI, and MCP. One request type carries the canonical name; member metadata and kind are derived by each host's generator.</Description>
+    <PackageTags>timewarp;contracts;mediator;cli;mcp</PackageTags>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <IsAotCompatible>true</IsAotCompatible>
+    <IsPackable>true</IsPackable>
+    <!-- TargetFrameworks is the only TFM property. An empty TargetFramework clears a
+         Directory.Build.props import that sets a single TFM (both set is NETSDK1013).
+         net10.0 is the asset net10 hosts restore; net11.0 is the in-repo target.
+         netstandard2.0 is omitted: analyzers match Operation by metadata name and do not
+         reference this assembly. -->
+    <TargetFramework></TargetFramework>
+    <TargetFrameworks>net10.0;net11.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="TimeWarp.Mediator.Contracts" />
+    <PackageReference Include="OneOf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="readme.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
