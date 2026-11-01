@@ -5,8 +5,9 @@ operation. An HTTP host supplies the route and verb. TimeWarp.Nuru supplies CLI 
 There is no second schema.
 
 The library publishes from this repository as `TimeWarp.Contracts`, on its own prerelease
-line. It targets `net10.0` and `net11.0`. Dependencies are `TimeWarp.Mediator.Contracts`
-and `OneOf`.
+line. It targets `net10.0` and `net11.0`. Dependencies are `TimeWarp.Mediator`
+(15.0.0-beta.4) and `OneOf`. The marker interfaces a request implements (`IQuery<T>`,
+`ICommand`, `IIdempotentCommand`, ...) come from `TimeWarp.Mediator`.
 
 Source lives in `source/timewarp-contracts/`. The packed package readme is
 `source/timewarp-contracts/readme.md`. Contracts-only tests live in
