@@ -70,6 +70,10 @@ This walk is done when:
 - [x] Packed nuspec dependency groups pasted; no Mediator.Contracts
 - [x] `ganda nuget outdated` summary pasted; audit --fix committed; workflow green
 
+## Review
+
+- Round 1: Done
+
 ## Notes
 
 - Downstream: timewarp-nuru `Directory.Packages.props` holds `TimeWarp.Contracts` 2.0.0-beta.29
@@ -114,7 +118,13 @@ Smoke: `./bin/dev check-version`, then `./bin/dev workflow`, then `unzip -p arti
 
 Expect: check-version prints `Version in source is new — safe to release.` and names `2.0.0-beta.31`. Workflow prints `0 Warning(s)`, `0 Error(s)`, `succeeded: 22`, and `Pipeline SUCCEEDED`. The nuspec groups for `net10.0` and `net11.0` each list `OneOf` 3.0.271 and `TimeWarp.Mediator` 15.0.0-beta.4, and neither group lists `TimeWarp.Mediator.Contracts`.
 
+### Review
+
+Disposition: **clean**. One round ran at effort 2 with a `general` reviewer only. Final counts: bug 0, suggestion 0, nit 0, and all statuses (open, fixed, wontfix) are 0. The reviewer re-ran the build (0 warnings, 0 errors, no TWM or CS8032/CS9057), re-read the packed nuspec, and checked that `TimeWarp.Mediator` 15.0.0-beta.4 defines the marker interfaces named in `operation-kind.cs`. The Goal restatement matches the task, so no misread was recorded. Artifacts: `review/review-framework.md`, `review/round-1/general.md`, `review/round-1/merged.md`, `review/disposition.md`.
+
 ## Session
 
 - Implementation: swapped the dependency to `TimeWarp.Mediator` 15.0.0-beta.4 and set the package version to `2.0.0-beta.31` (2026-11-01).
 - Implement oracle: implemented by implementer-grok (grok, vendor xai, model grok-4.7, response model grok-4.7-build), session 01a19569-6324-7a41-acd9-45b38642d670, max-turns 500, Done — 2026-11-01T04:48:56Z
+- Review oracle: claude (model claude-opus-5-5), body tw-implementation-review, effort 2, roster general, turn cap 120, 1 round, disposition clean — 2026-11-01
+- Review oracle: review by reviewer-claude (claude, vendor anthropic, model claude-opus-5-5, response model claude-opus-5-5), session aa0702aa-fbfe-411f-bab7-a46ecd455405, max-turns 120 — 2026-11-01T04:51:18Z
