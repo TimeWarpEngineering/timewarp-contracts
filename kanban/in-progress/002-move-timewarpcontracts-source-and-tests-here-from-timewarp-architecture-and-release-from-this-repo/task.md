@@ -71,6 +71,10 @@ This walk is done when:
 - [x] `dev build`, tests, `ganda repo audit` green
 - [ ] After merge: released; nuget.org URL in Results; timewarp-architecture task told the version
 
+## Review
+
+- Round 1: Done
+
 ## Notes
 
 - Do not change timewarp-architecture from this task. Its removal and package switch is its own
@@ -98,6 +102,15 @@ Smoke: `./bin/dev build`, then `./bin/dev test`, then `dotnet run --file tools/d
 
 Expect: the build line `0 Warning(s)` and `0 Error(s)`, the test summary `succeeded: 22`, and zip entries `lib/net10.0/timewarp-contracts.dll` and `lib/net11.0/timewarp-contracts.dll`.
 
+### Review disposition
+
+Disposition is **accepted-exceptions**, after 1 round with a general reviewer at effort 3. The final count is 0 bugs and 0 open findings, with 1 suggestion and 1 nit marked wontfix. The reviewer re-ran the build (0 warnings, 0 errors), the tests (22 of 22 passed), pack (`lib/net10.0` and `lib/net11.0` present; dependencies are only `OneOf` and `TimeWarp.Mediator.Contracts`), and `ganda repo audit` (clean). Every `.cs` file is byte-identical to architecture `ef2da4f`.
+
+- M1, suggestion, wontfix. `workflow.yml` `push.paths` leaves out `assets/**`, `msbuild/**`, and `BannedSymbols.txt`. The list comes from the scaffold, and the gap fails safe because `dev release` refuses. Fix it in `ganda repo init`.
+- M2, nit, wontfix. The `workflow_dispatch` `mode` description still says merge only builds and tests. The text is scaffold-owned and does not change behavior.
+
+Paths: `review/review-framework.md`, `review/round-1/general.md`, `review/round-1/merged.md`, `review/disposition.md`.
+
 ## Session
 
 - Created: 8c10267a-9869-468f-94f3-f663f4e20b06 (2026-10-31)
@@ -106,3 +119,5 @@ Expect: the build line `0 Warning(s)` and `0 Error(s)`, the test summary `succee
 - Unblocked 2026-11-01: nuget.org Trusted Publishing policy fixed (repo-owner typo). Probe passed https://github.com/TimeWarpEngineering/timewarp-contracts/actions/runs/41269578196. The resume note said `## Results` duplicated every paragraph. A paragraph compare found no duplicate. Version stays `2.0.0-beta.30`.
 - Resume: replaced the stale policy-missing sentence with the passing probe. Re-ran `./bin/dev build` (0 warnings, 0 errors), `./bin/dev test` (succeeded: 22), and pack (`lib/net10.0/timewarp-contracts.dll` and `lib/net11.0/timewarp-contracts.dll`). nuget.org's highest `TimeWarp.Contracts` is still `2.0.0-beta.29`.
 - Implement oracle: implemented by implementer-grok (grok, vendor xai, model grok-4.7, response model grok-4.7-build), session 01a1952b-4555-7142-ba5e-26dcebe68bd5, max-turns 500, Done — 2026-11-01T03:40:06Z
+- Review oracle: reviewer (claude, model claude-opus-5-5), session 48226d17-40eb-4751-b225-197878743327, effort 3, roster general, turn cap 200. Round 1 ended accepted-exceptions with 0 open (M1 and M2 wontfix). The restatement matches the task, so there is no misread. Done — 2026-11-01
+- Review oracle: review by reviewer-claude (claude, vendor anthropic, model claude-opus-5-5), session not reported, max-turns 200 — 2026-11-01T03:43:37Z
