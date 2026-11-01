@@ -30,3 +30,6 @@ bin/dev.exe
 [Bb]in/
 [Oo]bj/
 artifacts/
+
+# VS Code workspace settings: Peacock rewrites this on open
+.vscode/settings.json
