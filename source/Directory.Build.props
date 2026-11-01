@@ -4,8 +4,8 @@
 
   <!-- Package metadata for NuGet publishing -->
   <PropertyGroup Label="Package Metadata">
-    <!-- Independent prerelease line. Above nuget.org TimeWarp.Contracts 2.0.0-beta.29. -->
-    <Version>2.0.0-beta.30</Version>
+    <!-- Independent prerelease line. Above nuget.org TimeWarp.Contracts 2.0.0-beta.30. -->
+    <Version>2.0.0-beta.31</Version>
     <Authors>TimeWarpEngineering</Authors>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

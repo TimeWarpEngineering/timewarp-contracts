@@ -6,7 +6,9 @@ TimeWarp.Nuru supplies CLI and MCP. There is no second schema.
 
 The package publishes from this repository as `TimeWarp.Contracts`, on its own version line.
 It targets `net10.0` and `net11.0`.
-Dependencies are `TimeWarp.Mediator.Contracts` and `OneOf`.
+Dependencies are `TimeWarp.Mediator` (15.0.0-beta.4) and `OneOf`. The marker interfaces a
+request implements (`IQuery<T>`, `ICommand`, `IIdempotentCommand`, ...) come from
+`TimeWarp.Mediator`.
 
 ## `[Operation]`
 
