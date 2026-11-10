@@ -4,6 +4,7 @@
 #region Design
 // Executes dotnet test for all tests in the repository
 // Handler stores Command and Ct as fields so private methods are zero-parameter
+// Collects cobertura coverage to artifacts/coverage/coverage.cobertura.xml (Microsoft.Testing.Extensions.CodeCoverage)
 // Streams test output via Amuru RunAsync by default; --quiet uses CaptureAsync
 #endregion
 
@@ -15,7 +16,7 @@ public sealed class TestCommand : ICommand<Unit>
   [Option("quiet", "q", Description = "Hide test output unless the command fails")]
   public bool Quiet { get; set; }
 
-  internal sealed class Handler : ICommandHandler<TestCommand, Unit>
+  internal sealed class Handler : IRequestHandler<TestCommand, Unit>
   {
     private readonly ITerminal Terminal;
     private TestCommand Command = null!;
@@ -27,7 +28,7 @@ public sealed class TestCommand : ICommand<Unit>
       Terminal = terminal;
     }
 
-    public async Task<Unit> Handle(TestCommand command, CancellationToken ct)
+    public async ValueTask<Unit> Handle(TestCommand command, CancellationToken ct)
     {
       Command = command;
       Ct = ct;
@@ -55,8 +56,15 @@ public sealed class TestCommand : ICommand<Unit>
 
     private async Task<bool> TestAsync()
     {
-      CommandResult command = DotNet.Test()
-        .WithConfiguration("Release")
+      // DotNet.Test() has no pass-through for MTP flags (--coverage), so use the raw shell builder.
+      CommandResult command = Shell.Builder("dotnet")
+        .WithArguments(
+          "test",
+          "--configuration", "Release",
+          "--results-directory", "artifacts/coverage",
+          "--coverage",
+          "--coverage-output-format", "cobertura",
+          "--coverage-output", "coverage.cobertura.xml")
         .WithWorkingDirectory(RepoRoot)
         .WithNoValidation()
         .Build();

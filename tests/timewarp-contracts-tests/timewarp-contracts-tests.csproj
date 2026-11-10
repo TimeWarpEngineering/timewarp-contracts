@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="TimeWarp.Jaribu.TestingPlatform" />
     <PackageReference Include="Shouldly" />
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\source\timewarp-contracts\timewarp-contracts.csproj" />

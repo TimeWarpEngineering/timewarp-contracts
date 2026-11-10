@@ -70,7 +70,7 @@ jobs:
       - name: Validate break-glass confirmation
         if: github.event_name == 'workflow_dispatch' && inputs.mode == 'release' && inputs.confirm != 'release'
         run: |
-          echo "::error::mode=release requires confirm=release. Refusing to run a break-glass release."
+          Write-Output "::error::mode=release requires confirm=release. Refusing to run a break-glass release."
           exit 1
 
       - name: NuGet login (OIDC Trusted Publishing)
@@ -89,13 +89,24 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if [ "${{ github.event_name }}" == "release" ]; then
+          if ('${{ github.event_name }}' -eq 'release') {
             dotnet run --file tools/dev-cli/dev.cs -- workflow --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}"
-          elif [ "${{ github.event_name == 'workflow_dispatch' && inputs.mode == 'release' && inputs.confirm == 'release' }}" == "true" ]; then
+          }
+          elseif ('${{ github.event_name == 'workflow_dispatch' && inputs.mode == 'release' && inputs.confirm == 'release' }}' -eq 'true') {
             dotnet run --file tools/dev-cli/dev.cs -- workflow --mode release --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}"
-          else
+          }
+          else {
             dotnet run --file tools/dev-cli/dev.cs -- workflow
-          fi
+          }
+          exit $LASTEXITCODE
+
+      - name: coverage
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: artifacts/coverage
+          if-no-files-found: warn
 
       - name: Upload Artifacts
         # Skip in release mode: release promotes the already-uploaded merge artifact.
