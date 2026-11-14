@@ -25,7 +25,7 @@ package-version file to touch) to the listed versions, including the major bump 
 Acceptance criteria:
 
 - [x] `Directory.Packages.props` pins Nuru 4.0.0-beta.13, Nuru.DevCli 4.0.0-beta.13,
-      SourceGenerators 1.0.0-beta.16, Build.Tasks 2.0.0, Mediator 15.0.0-beta.8,
+      SourceGenerators 1.0.0-beta.16, Build.Tasks 2.0.0 (landed as 2.0.1-beta.1), Mediator 15.0.0-beta.8,
       Jaribu.TestingPlatform 1.0.0-beta.16; no other pins change.
 - [x] `source/Directory.Build.props` `<Version>` is `2.0.0-beta.32` (hyphen, not plus).
 - [x] `./bin/dev build`, `./bin/dev test`, and `ganda repo audit` pass; any break from the
@@ -35,11 +35,14 @@ Acceptance criteria:
 
 - `Directory.Packages.props`: TimeWarp.Nuru 4.0.0-beta.12 → 4.0.0-beta.13,
   TimeWarp.Nuru.DevCli 4.0.0-beta.12 → 4.0.0-beta.13, TimeWarp.SourceGenerators
-  1.0.0-beta.11 → 1.0.0-beta.16, TimeWarp.Build.Tasks 1.0.0 → 2.0.0, TimeWarp.Mediator
+  1.0.0-beta.11 → 1.0.0-beta.16, TimeWarp.Build.Tasks 1.0.0 → 2.0.1-beta.1 (see note), TimeWarp.Mediator
   15.0.0-beta.4 → 15.0.0-beta.8, TimeWarp.Jaribu.TestingPlatform 1.0.0-beta.15 → 1.0.0-beta.16.
   No other pins changed.
 - `source/Directory.Build.props`: `<Version>` 2.0.0-beta.31 → 2.0.0-beta.32.
-- No source changes were needed; the Build.Tasks 2.0.0 major bump built clean with 0 warnings.
+- Build.Tasks note: the task listed 2.0.0, but the post-commit `ganda repo attest` failed
+  `package-pin-currency` because 2.0.1-beta.1 was published on 2026-11-14 and this dev-only
+  (`PrivateAssets=all`) pin must track the newest version. Bumped to 2.0.1-beta.1 and reran all gates.
+- No source changes were needed; the Build.Tasks major bump built clean with 0 warnings.
 - The dev CLI (`tools/dev-cli`, which uses Nuru/Nuru.DevCli/Mediator from this props file) was
   rebuilt once with `dotnet run --file tools/dev-cli/dev.cs -- self-install` and compiled clean.
 
@@ -50,7 +53,9 @@ Acceptance criteria:
 - `ganda repo audit` — passed with 2 advisory warnings (`memsearch-scaffold`: five outdated
   `.githooks/*.cs`; `vscode-window-icon`: `.vscode/settings.json` missing). Boy-scout fix:
   `ganda repo audit --fix` refreshed the five `.githooks/*.cs` hooks and wrote the ignored
-  `.vscode/settings.json`; its re-audit passed all checks (43 passed, 0 failed, 3 skipped).
+  `.vscode/settings.json`; its re-audit passed all checks (43 passed, 0 failed, 3 skipped). After the Build.Tasks
+  2.0.1-beta.1 fix: `./bin/dev build` passed (0 warnings), `./bin/dev test` passed (22/22),
+  `ganda repo audit` passed (43 passed, 0 failed, 3 skipped).
 
 ### How to validate
 
@@ -63,7 +68,7 @@ grep '<Version>' source/Directory.Build.props
 ```
 
 Expect: Nuru and Nuru.DevCli at 4.0.0-beta.13, SourceGenerators 1.0.0-beta.16, Build.Tasks
-2.0.0, Mediator 15.0.0-beta.8, Jaribu.TestingPlatform 1.0.0-beta.16; `<Version>2.0.0-beta.32</Version>`;
+2.0.1-beta.1, Mediator 15.0.0-beta.8, Jaribu.TestingPlatform 1.0.0-beta.16; `<Version>2.0.0-beta.32</Version>`;
 build succeeds with 0 warnings and 22 tests pass.
 
 ## Session
