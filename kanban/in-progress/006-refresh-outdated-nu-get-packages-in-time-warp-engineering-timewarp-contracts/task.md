@@ -71,7 +71,21 @@ Expect: Nuru and Nuru.DevCli at 4.0.0-beta.13, SourceGenerators 1.0.0-beta.16, B
 2.0.1-beta.1, Mediator 15.0.0-beta.8, Jaribu.TestingPlatform 1.0.0-beta.16; `<Version>2.0.0-beta.32</Version>`;
 build succeeds with 0 warnings and 22 tests pass.
 
+### Review
+
+- Round 1, effort 1, roster: general.
+- Counts: bug 0 open / 0 fixed / 0 wontfix; suggestion 0; nit 0. Final open count: 0.
+- Disposition: clean. No wontfix and no escalation.
+- The goal restatement matches the original task. `TimeWarp.Build.Tasks` `2.0.1-beta.1` is the recorded `package-pin-currency` follow-up after the task's `2.0.0`, not a misread.
+- Paths: `review/review-framework.md`, `review/round-1/general.md`, `review/round-1/merged.md`, `review/disposition.md`.
+
 ## Session
 
 - Minted by ganda task wave run 20261114T054552Z-9a0f39
 - Implement oracle: implemented by implementer-claude (claude, vendor anthropic, model claude-opus-5-5, response model claude-opus-5-5), session 2fe5fe84-1c6a-4e31-ac87-c168318035fd, max-turns 500, Done — 2026-11-14T10:22:01Z
+- Reviewer: grok session 01a1d994-245e-7bc0-a311-47ae6b1cf23c (2026-11-14), effort 1, roster general, max-turns 80
+- Review oracle: review by reviewer-grok (grok, vendor xai, model grok-4.7, response model grok-4.7-build), session 01a1d994-245e-7bc0-a311-47ae6b1cf23c, max-turns 80, artifacts general.md, merged.md, disposition.md — 2026-11-14T10:26:39Z
+
+## Review
+
+- Round 1: Done
