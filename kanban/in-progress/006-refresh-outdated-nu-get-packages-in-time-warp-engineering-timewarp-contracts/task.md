@@ -74,3 +74,4 @@ build succeeds with 0 warnings and 22 tests pass.
 ## Session
 
 - Minted by ganda task wave run 20261114T054552Z-9a0f39
+- Implement oracle: implemented by implementer-claude (claude, vendor anthropic, model claude-opus-5-5, response model claude-opus-5-5), session 2fe5fe84-1c6a-4e31-ac87-c168318035fd, max-turns 500, Done — 2026-11-14T10:22:01Z
