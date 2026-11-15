@@ -5,7 +5,7 @@
 // Discovers packable projects via IPackableProjectService (MSBuild IsPackable).
 // Clears artifacts/packages first so leftovers cannot ship. Reads <Version> from
 // source/Directory.Build.props and verifies the nupkg set with CiRunPromotion.
-// Also requires lib/net10.0 and lib/net11.0 in the TimeWarp.Contracts package.
+// Also requires lib/net11.0 in the TimeWarp.Contracts package.
 // Merge CI uploads that directory; release mode downloads it and does not rebuild.
 #endregion
 
@@ -18,7 +18,6 @@ public sealed class PackCommand : ICommand<Unit>
   {
     private static readonly string[] ContractsLayoutEntries =
     [
-      "lib/net10.0/timewarp-contracts.dll",
       "lib/net11.0/timewarp-contracts.dll",
       "readme.md",
       "logo.png"
