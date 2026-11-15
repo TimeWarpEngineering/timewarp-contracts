@@ -4,7 +4,7 @@
 #region Design
 // PR/merge: clean → build → test → pack. Pack writes the IsPackable set to
 // artifacts/packages and verifies file names with CiRunPromotion, including
-// lib/net10.0 and lib/net11.0.
+// lib/net11.0.
 // Release: tag-gate → check-version → locate-run → download-artifact → verify → push.
 // Release promotes the CI Packages-* artifact (Nuru 458 build-once/promote) — no rebuild.
 // Push target is nuget.org via the OIDC key workflow.yml passes as --api-key.
