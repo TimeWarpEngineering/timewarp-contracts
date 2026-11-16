@@ -11,6 +11,14 @@
 // workflow_dispatch without --mode stays merge and does not publish.
 // Handlers run in-process so CI needs no ./bin/dev. dev release remains the human
 // tag and GitHub Release cut; this command is what Actions calls.
+// The PR/merge path first calls the shared PullRequestBuildClassifier
+// (TimeWarp.Nuru.DevCli, timewarp-nuru 595). On a pull request whose diff
+// touches only declared non-build paths (kanban, documentation, ...) it prints
+// the classifier's message and exits 0 without clean, build, test, or pack.
+// Push, release, dispatch, and a local run always build. workflow.yml has no
+// paths filter on pull_request, so every pull request reports CI. This repo's
+// additions to the rule (assets/logo.png is the packed icon) live in
+// .timewarp/dev.jsonc under pullRequestBuild; the rule is not copied here.
 #endregion
 
 namespace DevCli.Commands;
@@ -92,8 +100,24 @@ public sealed partial class WorkflowCommand : ICommand<Unit>
 
     private async Task RunPrAsync()
     {
-      Terminal.WriteLine("Pipeline: clean → build → test → pack\n");
       Environment.ExitCode = 0;
+
+      string? repoRoot = Git.FindRoot();
+      if (repoRoot is null)
+      {
+        AbortPipeline("could not find the git repository root");
+        return;
+      }
+
+      PullRequestBuildDecision decision = await PullRequestBuildClassifier.DecideAsync(repoRoot, Ct);
+      Terminal.WriteLine(decision.Message);
+      if (!decision.RequiresBuild)
+      {
+        Terminal.WriteLine("\nPipeline SUCCEEDED (build and test skipped)".Green());
+        return;
+      }
+
+      Terminal.WriteLine("Pipeline: clean → build → test → pack\n");
 
       if (!await RunStepAsync("Clean", new CleanCommand.Handler(Terminal, RepoCleanService).Handle(new CleanCommand(), Ct)))
       {

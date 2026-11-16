@@ -1,0 +1,12 @@
+// Per-repo dev CLI configuration (TimeWarp.Nuru.DevCli RepoConfig).
+{
+  // Additions to the shared pull request build rule (PullRequestBuildClassifier).
+  // source/Directory.Build.props packs assets/logo.png as the package icon, so a
+  // pull request that changes it must build and pack. The default rule treats
+  // assets/ as non-build. Task 008.
+  "pullRequestBuild": {
+    "buildPaths": [
+      "assets/logo.png"
+    ]
+  }
+}
