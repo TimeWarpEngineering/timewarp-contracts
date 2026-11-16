@@ -24,15 +24,36 @@ Survey 2026-11-16 for this repo: no `pull_request` paths filter; `dev workflow` 
 6. No local copy of the classification rule remains in `tools/dev-cli/`.
 7. `ganda repo audit` passes, including both CI-standard checks from ganda 655.
 
+## Goal (implementer restatement)
+
+Make a pull request that only touches non-build paths (kanban, docs, ...) report a green `CI` run
+without building, using the shared `PullRequestBuildClassifier` from `TimeWarp.Nuru.DevCli` 4.0.0-beta.15
+instead of a workflow `paths` filter or a local copy of the rule.
+
+Acceptance:
+
+- `TimeWarp.Nuru` and `TimeWarp.Nuru.DevCli` pinned at `4.0.0-beta.15`.
+- `dev workflow`'s PR/merge path calls `PullRequestBuildClassifier.DecideAsync` first, prints its
+  message, and on skip returns with exit 0. Release path untouched.
+- `workflow.yml` keeps no `paths` filter on `pull_request` (already true) and keeps the `push` filter
+  with a why comment (already true).
+- Packed files outside the protected roots (`assets/logo.png` is the package icon) are declared in
+  `.timewarp/dev.jsonc` under `pullRequestBuild.buildPaths`; the rule is not copied.
+- `./bin/dev build`, `./bin/dev test`, and `ganda repo audit` (including `dev-workflow-classifier`) pass.
+
 ## Checklist
 
-- [ ] `ganda repo audit --fix` run and committed
-- [ ] DevCli pin at 4.0.0-beta.15
-- [ ] `dev workflow` calls the shared classifier on pull requests; skip exits 0 with its message
-- [ ] No `paths` filter on `pull_request`; `push` filter kept with a why comment
-- [ ] Extra build roots (if any) declared through config
-- [ ] `ganda repo audit` clean
+- [x] `ganda repo audit --fix` run and committed
+- [x] DevCli pin at 4.0.0-beta.15
+- [x] `dev workflow` calls the shared classifier on pull requests; skip exits 0 with its message
+- [x] No `paths` filter on `pull_request`; `push` filter kept with a why comment
+- [x] Extra build roots (if any) declared through config
+- [x] `ganda repo audit` clean
 - [ ] This task's pull request shows a `CI` run (record the URL in Results)
+
+## Review
+
+- Round 1: Done
 
 ## Notes
 
@@ -40,6 +61,59 @@ Survey 2026-11-16 for this repo: no `pull_request` paths filter; `dev workflow` 
 After merge, the ganda 656 tracker proves a kanban-only pull request here reports `CI` success and merges with
 plain `ganda pr merge` (no `--allow-no-ci`).
 
+Review: `review/review-framework.md`, `review/round-1/general.md`, `review/round-1/merged.md`, `review/disposition.md`.
+
 ## Session
 
 - Created: 64677b22-d705-4b25-b537-4b53732bcb92 (2026-11-16)
+- Implement (2026-11-16): merged origin/master (kanban land), bumped Nuru + DevCli to 4.0.0-beta.15,
+  added the classifier call to `RunPrAsync`, added `.timewarp/dev.jsonc` with `assets/logo.png` as a build path.
+- Implement oracle: implemented by implementer-claude (claude, vendor anthropic, model claude-opus-5-5, response model claude-opus-5-5), session 302845a0-1f0e-4a3b-baca-e3f539212f3d, max-turns 500, Done — 2026-11-16T16:58:35Z
+- Review: Grok session 01a1e54b-f9d0-7190-b54f-ec20c925f725 (2026-11-16), effort 1, roster general, round 1, disposition clean
+- Review oracle: review by reviewer-grok (grok, vendor xai, model grok-4.7, response model grok-4.7-build), session 01a1e54b-f9d0-7190-b54f-ec20c925f725, max-turns 80, artifacts general.md, merged.md, disposition.md — 2026-11-16T17:05:58Z
+
+## Results
+
+What changed:
+
+- `Directory.Packages.props`: `TimeWarp.Nuru` and `TimeWarp.Nuru.DevCli` 4.0.0-beta.14 -> 4.0.0-beta.15.
+- `tools/dev-cli/endpoints/workflow-command.cs`: the PR/merge path finds the repo root and calls
+  `PullRequestBuildClassifier.DecideAsync` first, prints `decision.Message`, and on `!RequiresBuild`
+  returns with exit code 0 before clean/build/test/pack. Release path unchanged. No local copy of the rule.
+- `.timewarp/dev.jsonc` (new): `pullRequestBuild.buildPaths = ["assets/logo.png"]` because
+  `source/Directory.Build.props` packs it as the package icon and the default rule treats `assets/` as non-build.
+  The packed readme is `source/timewarp-contracts/readme.md`, already under a protected root.
+- `.github/workflows/workflow.yml`: already compliant (no `pull_request` paths filter; `push` filter has the
+  why comment). No change.
+- `ganda repo audit --fix` made no changes.
+
+### How to validate
+
+Smoke:
+
+```bash
+./bin/dev self-install   # or: dotnet run --file tools/dev-cli/dev.cs -- self-install
+echo '{"pull_request":{"base":{"sha":"509ab96"},"head":{"sha":"502fa83"}}}' > /tmp/e.json
+GITHUB_EVENT_NAME=pull_request GITHUB_EVENT_PATH=/tmp/e.json ./bin/dev workflow; echo "exit=$?"
+```
+
+Expect: `Pull request changes only declared non-build paths. Skipping build and test. ... (1 changed paths)`,
+`Pipeline SUCCEEDED (build and test skipped)`, `exit=0`. (509ab96...502fa83 changes only this kitchen.)
+Without `GITHUB_EVENT_NAME=pull_request` the classifier prints a build message and the full pipeline runs.
+
+### Gates
+
+- `./bin/dev build`: Build succeeded, 0 warnings, 0 errors.
+- `./bin/dev test`: Passed, 22/22.
+- `ganda repo audit --fix`: Repository passes all audit checks (exit 0); `dev-workflow-classifier`, which failed
+  on the post-merge attest before this change, now passes. No fixes applied.
+- CI run on this task's pull request: recorded after the host opens the PR (open-pr is a later host node).
+
+### Review
+
+- Rounds: 1. Roster: general. Effort: 1.
+- Counts: bug 0 open / 0 fixed / 0 wontfix; suggestion 0/0/0; nit 0/0/0. Final open count: 0.
+- Disposition: clean. No wontfix and no escalation. The implementer restatement matches the task (no misread).
+- Paths: `review/review-framework.md`, `review/round-1/merged.md`, `review/disposition.md`.
+- Gates were not re-run. The implementer's recorded build, test, audit, and smoke stand.
+
