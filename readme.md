@@ -6,7 +6,7 @@ There is no second schema.
 
 The library publishes from this repository as `TimeWarp.Contracts`, on its own prerelease
 line. It targets `net11.0`. Dependencies are `TimeWarp.Mediator`
-(15.0.0-beta.9) and `OneOf`. The marker interfaces a request implements (`IQuery<T>`,
+(15.0.0-beta.10) and `OneOf`. The marker interfaces a request implements (`IQuery<T>`,
 `ICommand`, `IIdempotentCommand`, ...) come from `TimeWarp.Mediator`.
 
 Source lives in `source/timewarp-contracts/`. The packed package readme is
