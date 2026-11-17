@@ -39,6 +39,8 @@ Acceptance criteria:
 
 - Created: 1f6a6c8d-4b41-41b4-9d61-a6a74e75bf5f (2026-11-17)
 - Implement oracle: implemented by implementer-claude (claude, vendor anthropic, model claude-opus-5-5, response model claude-opus-5-5), session e783c598-f6c3-472f-89d4-2da41248a6d1, max-turns 500, Done — 2026-11-17T11:49:50Z
+- Review oracle: grok session 01a1e957-a876-70b2-88dc-8837c0dcb92a (2026-11-17), effort 1, roster general, turn cap 80
+- Review oracle: review by reviewer-grok (grok, vendor xai, model grok-4.7, response model grok-4.7-build), session 01a1e957-a876-70b2-88dc-8837c0dcb92a, max-turns 80, artifacts general.md, merged.md, disposition.md — 2026-11-17T11:54:08Z
 
 ## Results
 
@@ -70,6 +72,22 @@ ganda nuget outdated
 
 Expect: build and 22 tests pass; the nuspec lists `TimeWarp.Mediator` version `15.0.0-beta.10`;
 `ganda nuget outdated` prints "All packages are up to date!".
+
+### Review
+
+- Round 1, effort 1, roster: general.
+- Counts: bug 0 open / 0 fixed / 0 wontfix; suggestion 0 / 0 / 0; nit 0 / 0 / 0. Final open count: 0.
+- Disposition: **clean**. No wontfix and no escalation.
+- The review read the diff and the recorded gates. It did not re-run build, test, or audit.
+- Paths: `review/review-framework.md`, `review/round-1/general.md`, `review/round-1/merged.md`, `review/disposition.md`.
+
+## Learnings
+
+- Misread: `## Goal (implementer restatement)` adds an acceptance criterion the original requirements do not contain. It says both readmes and the csproj comment that names the Mediator version must say 15.0.0-beta.10. The task asks only to update the version named in `readme.md` and `source/timewarp-contracts/readme.md`. The comment in `source/timewarp-contracts/timewarp-contracts.csproj` records that 15.0.0-beta.9 dropped net10.0 (task 007). The implementation left that sentence, which matches the original task. Review did not file a finding to rewrite it.
+
+## Review
+
+- Round 1: Done
 
 ## Notes
 
