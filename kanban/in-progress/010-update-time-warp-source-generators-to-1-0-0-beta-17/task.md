@@ -69,6 +69,7 @@ Expect: version `1.0.0-beta.17`; build with 0 warnings / 0 errors; 22 tests pass
 ## Session
 
 - Created: 1f6a6c8d-4b41-41b4-9d61-a6a74e75bf5f (2026-11-17)
+- Implement oracle: implemented by implementer-claude (claude, vendor anthropic, model claude-opus-5-5), session not reported, max-turns 500, Done — 2026-11-17T16:05:43Z
 
 ## Notes
 
