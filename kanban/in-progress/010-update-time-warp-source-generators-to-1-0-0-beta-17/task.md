@@ -66,10 +66,25 @@ ganda nuget outdated
 Expect: version `1.0.0-beta.17`; build with 0 warnings / 0 errors; 22 tests pass;
 `All packages are up to date!`.
 
+### Review
+
+- Round 1, effort 1, roster: general.
+- Counts: bug 0 open / 0 fixed / 0 wontfix; suggestion 0 / 0 / 0; nit 0 / 0 / 0. Final open count: 0.
+- Disposition: **clean**. No wontfix and no escalation.
+- The review read the diff and the recorded gates. It did not re-run build, test, or audit.
+- Paths: `review/review-framework.md`, `review/round-1/general.md`, `review/round-1/merged.md`, `review/disposition.md`.
+
 ## Session
 
 - Created: 1f6a6c8d-4b41-41b4-9d61-a6a74e75bf5f (2026-11-17)
 - Implement oracle: implemented by implementer-claude (claude, vendor anthropic, model claude-opus-5-5), session not reported, max-turns 500, Done — 2026-11-17T16:05:43Z
+- Review oracle: grok session 01a1ea41-ed08-7890-9719-6f636156ffb4 (2026-11-17), effort 1, roster general, turn cap 80
+- Review oracle: review by reviewer-grok (grok, vendor xai, model grok-4.7, response model grok-4.7-build), session 01a1ea41-ed08-7890-9719-6f636156ffb4, max-turns 80, artifacts general.md, merged.md, disposition.md — 2026-11-17T16:08:33Z
+- Review oracle: review by reviewer-grok (grok, vendor xai, model grok-4.7, response model grok-4.7-build), session 01a1ea41-ed08-7890-9719-6f636156ffb4, max-turns 80, artifacts general.md, merged.md, disposition.md — 2026-11-17T16:09:22Z
+
+## Review
+
+- Round 1: Done
 
 ## Notes
 
