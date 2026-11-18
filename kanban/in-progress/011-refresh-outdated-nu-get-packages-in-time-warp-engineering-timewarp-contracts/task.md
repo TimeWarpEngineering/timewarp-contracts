@@ -31,6 +31,7 @@ Acceptance criteria:
   - `tools/dev-cli/endpoints/pack-command.cs`: `DotNet.Pack(project).WithConfiguration().WithOutput()`.
   - `tools/dev-cli/endpoints/workflow-release-steps.cs`: `Gh.Run().List()`, `Gh.Api(...)`, `Gh.Run().Download(...)`, `DotNet.NuGet().Push(...)`.
 - Boy-scout: `ganda repo audit` raised the advisory `vscode-window-icon` (missing `.vscode/settings.json`, which is gitignored); `ganda repo audit --fix` created it locally, nothing to commit.
+- Implement oracle: implemented by implementer-claude (claude, vendor anthropic, model claude-opus-5-5), session not reported, max-turns 500, Done — 2026-11-18T19:06:01Z
 
 ## Results
 
