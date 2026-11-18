@@ -56,12 +56,11 @@ public sealed class TestCommand : ICommand<Unit>
 
     private async Task<bool> TestAsync()
     {
-      // DotNet.Test() has no pass-through for MTP flags (--coverage), so use the raw shell builder.
-      CommandResult command = Shell.Builder("dotnet")
+      // MTP coverage flags have no typed option; WithArguments appends them after the typed options.
+      CommandResult command = DotNet.Test()
+        .WithConfiguration("Release")
+        .WithResultsDirectory("artifacts/coverage")
         .WithArguments(
-          "test",
-          "--configuration", "Release",
-          "--results-directory", "artifacts/coverage",
           "--coverage",
           "--coverage-output-format", "cobertura",
           "--coverage-output", "coverage.cobertura.xml")

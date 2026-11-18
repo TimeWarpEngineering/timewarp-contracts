@@ -74,12 +74,9 @@ public sealed class PackCommand : ICommand<Unit>
       foreach (PackableProject project in packableProjects)
       {
         Terminal.WriteLine($"Packing {project.PackageId} {version}...");
-        int packExit = await Shell.Builder("dotnet")
-          .WithArguments(
-            "pack",
-            project.ProjectPath,
-            "--configuration", "Release",
-            "--output", artifactsDir)
+        int packExit = await DotNet.Pack(project.ProjectPath)
+          .WithConfiguration("Release")
+          .WithOutput(artifactsDir)
           .WithWorkingDirectory(repoRoot)
           .WithNoValidation()
           .RunAsync(ct);
