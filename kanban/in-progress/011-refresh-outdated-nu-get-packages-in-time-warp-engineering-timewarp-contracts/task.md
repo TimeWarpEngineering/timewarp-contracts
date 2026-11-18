@@ -34,6 +34,7 @@ Acceptance criteria:
 - Implement oracle: implemented by implementer-claude (claude, vendor anthropic, model claude-opus-5-5), session not reported, max-turns 500, Done — 2026-11-18T19:06:01Z
 - Reviewer: grok session 01a1f00d-5a45-73b2-b452-1710dbc3522d (2026-11-19), effort 1, roster general, round 1, turn cap 80
 - Review oracle: review by reviewer-grok (grok, vendor xai, model grok-4.7, response model grok-4.7-build), session 01a1f00d-5a45-73b2-b452-1710dbc3522d, max-turns 80, artifacts general.md, merged.md — 2026-11-18T19:13:03Z
+- Reviewer round 2: grok session 01a1f014-be18-76f2-862c-298241009bbf (2026-11-19), effort 1, roster general, turn cap 80
 
 ## Results
 
@@ -71,9 +72,15 @@ grep -oE '(Nuru|Amuru|Jaribu)[^"]*" Version="[^"]*"' Directory.Packages.props
 
 Expect: self-install and build succeed with 0 warnings and no AMURU0001; `./bin/dev test` runs the suite through `DotNet.Test()` and writes `artifacts/coverage/coverage.cobertura.xml`; the grep shows Nuru/Nuru.DevCli 4.0.0-beta.16, Amuru/Amuru.Tools 3.0.0-beta.10, Jaribu.TestingPlatform 1.0.0-beta.18.
 
-### Review round 1
+### Review
 
-Effort 1, roster general. Ledger: `review/round-1/merged.md`. Counts: bug 1 open, 0 fixed, 0 wontfix. Disposition is not written while M1 is open. M1: recorded gates do not show that `./bin/dev test` passed after the Jaribu.TestingPlatform bump to 1.0.0-beta.18.
+Rounds: 2. Roster: general. Effort: 1. Turn cap: 80.
+
+Round 1 (`review/round-1/merged.md`) opened M1 (bug): the gate record did not show that `./bin/dev test` passed after the Jaribu.TestingPlatform bump to 1.0.0-beta.18. The fix pass recorded that run under `### Gates` (22 passed, 0 failed, 0 skipped) and the coverage file. Round 2 (`review/round-2/merged.md`) re-checked that record on the kitchen delta. Product paths are unchanged since round 1. M1 is fixed. No new findings.
+
+Final counts: bug 0 open, 1 fixed, 0 wontfix; suggestion 0; nit 0.
+
+Disposition: clean (`review/disposition.md`). Framework: `review/review-framework.md`. Last ledger: `review/round-2/merged.md`.
 
 ## Learnings
 
@@ -83,3 +90,4 @@ Misread: the task says "Edit Directory.Packages.props in this repo only." The go
 
 - Round 1: Blocked — open M1
 - Fix pass for round 1: M1 fixed. `./bin/dev test` passed 22 of 22 on Jaribu.TestingPlatform 1.0.0-beta.18 and wrote the coverage file (see `### Gates`).
+- Round 2: Done

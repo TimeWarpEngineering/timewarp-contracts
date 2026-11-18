@@ -10,7 +10,7 @@
 
 ## Budget (by-diff)
 
-- Lines changed: 111
+- Lines changed: 85
 - Effort: 1
 - TCB hits: none
 - Roster axes: general
@@ -26,3 +26,9 @@
 - Exception: one targeted command may check one suspected bug; the finding names the command and the reason. A full build, full test run, or audit is never that command
 - A missing or thin recorded result is a finding, not a reason to run the gates
 - Prior rounds are immutable; new work goes in `round-(N+1)/`
+
+## Round 2 scope
+
+**Date:** 2026-11-19
+**Diff scope:** `191903b819f1a534245380049d9c8d7d8ff0b6d8`..`1aa1137e1eb3e0fc2100b4ecfc8ae8a1216efa1c` — kitchen only (`task.md`, `review/review-framework.md`, `review/round-1/`). Re-review of M1. No product path in the delta. The 85-line budget above is this delta.
+**Session IDs:** grok 01a1f014-be18-76f2-862c-298241009bbf (2026-11-19), effort 1, roster general, turn cap 80
