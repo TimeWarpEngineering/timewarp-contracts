@@ -121,8 +121,11 @@ public sealed partial class WorkflowCommand
       CommandOutput runListResult;
       try
       {
-        runListResult = await Shell.Builder("gh")
-          .WithArguments("run", "list", "--workflow", "workflow.yml", "--commit", headSha, "--status", "success", "--json", "databaseId,event,headSha,createdAt")
+        runListResult = await Gh.Run().List()
+          .WithWorkflow("workflow.yml")
+          .WithCommit(headSha)
+          .WithStatus("success")
+          .WithJson("databaseId", "event", "headSha", "createdAt")
           .WithNoValidation()
           .CaptureAsync(Ct);
       }
@@ -151,8 +154,7 @@ public sealed partial class WorkflowCommand
 
       foreach (CiRunSummary run in candidateRuns)
       {
-        CommandOutput artifactsResult = await Shell.Builder("gh")
-          .WithArguments("api", $"repos/{{owner}}/{{repo}}/actions/runs/{run.DatabaseId}/artifacts")
+        CommandOutput artifactsResult = await Gh.Api($"repos/{{owner}}/{{repo}}/actions/runs/{run.DatabaseId}/artifacts")
           .WithNoValidation()
           .CaptureAsync(Ct);
 
@@ -186,8 +188,9 @@ public sealed partial class WorkflowCommand
 
         Terminal.WriteLine($"Downloading artifact '{artifact.Name}' from run {run.DatabaseId} ({run.Event})...");
 
-        int exitCode = await Shell.Builder("gh")
-          .WithArguments("run", "download", run.DatabaseId.ToString(CultureInfo.InvariantCulture), "--name", artifact.Name, "--dir", artifactsDir)
+        int exitCode = await Gh.Run().Download(run.DatabaseId.ToString(CultureInfo.InvariantCulture))
+          .WithName(artifact.Name)
+          .WithDirectory(artifactsDir)
           .WithWorkingDirectory(repoRoot)
           .WithNoValidation()
           .RunAsync(Ct);
@@ -232,9 +235,12 @@ public sealed partial class WorkflowCommand
 
         Terminal.WriteLine($"Pushing {project.PackageId}.{version}.nupkg to NuGet.org...");
 
-        int exitCode = await Shell.Builder("dotnet")
-          .WithArguments("nuget", "push", nupkgPath, "--source", NuGetOrgSource, "--api-key", apiKey, "--skip-duplicate")
-          .WithWorkingDirectory(repoRoot)
+        // nupkgPath is absolute (under repoRoot), so the push needs no working directory.
+        int exitCode = await DotNet.NuGet()
+          .Push(nupkgPath)
+          .WithSource(NuGetOrgSource)
+          .WithApiKey(apiKey)
+          .WithSkipDuplicate()
           .WithNoValidation()
           .RunAsync(Ct);
 
